@@ -20,12 +20,12 @@ jobs:
       version: ${{ steps.release.outputs.version }}
     steps:
       - name: Check out the tagged revision
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v4
         with:
           fetch-depth: 0
 
       - name: Validate Gradle wrapper
-        uses: gradle/actions/wrapper-validation@0b6dd653ba04f4f93bf581ec31e66cbd7dcb644d # v4
+        uses: gradle/actions/wrapper-validation@ed408507eac070d1f99cc633dbcf757c94c7933a # v4
 
       - name: Derive and validate release version
         id: release
@@ -40,13 +40,13 @@ jobs:
           echo "KITE_SSOT_VERSION=$VERSION" >> "$GITHUB_ENV"
 
       - name: Set up JDK 21
-        uses: actions/setup-java@c1e323688fd81a25caa38c78aa6df2d33d3e20d9 # v4
+        uses: actions/setup-java@03ad4de0992f5dab5e18fcb136590ce7c4a0ac95 # v4
         with:
           distribution: temurin
           java-version: '21'
 
       - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@0b6dd653ba04f4f93bf581ec31e66cbd7dcb644d # v4
+        uses: gradle/actions/setup-gradle@ed408507eac070d1f99cc633dbcf757c94c7933a # v4
 
       - name: Build and verify the release candidate
         shell: bash
@@ -96,7 +96,7 @@ jobs:
               | xargs -0 shasum -a 256) > build/unsigned-publication-checksums.sha256
 
       - name: Upload immutable release candidate
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: release-candidate-${{ env.KITE_SSOT_VERSION }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
@@ -121,12 +121,12 @@ jobs:
       KITE_SSOT_VERSION: ${{ needs.stage.outputs.version }}
     steps:
       - name: Check out the tagged revision
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v4
         with:
           fetch-depth: 0
 
       - name: Validate Gradle wrapper
-        uses: gradle/actions/wrapper-validation@0b6dd653ba04f4f93bf581ec31e66cbd7dcb644d # v4
+        uses: gradle/actions/wrapper-validation@ed408507eac070d1f99cc633dbcf757c94c7933a # v4
 
       - name: Verify the protected revision
         shell: bash
@@ -135,16 +135,16 @@ jobs:
           git tag --points-at HEAD | grep -Fx -- "$GITHUB_REF_NAME" >/dev/null
 
       - name: Set up JDK 21
-        uses: actions/setup-java@c1e323688fd81a25caa38c78aa6df2d33d3e20d9 # v4
+        uses: actions/setup-java@03ad4de0992f5dab5e18fcb136590ce7c4a0ac95 # v4
         with:
           distribution: temurin
           java-version: '21'
 
       - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@0b6dd653ba04f4f93bf581ec31e66cbd7dcb644d # v4
+        uses: gradle/actions/setup-gradle@ed408507eac070d1f99cc633dbcf757c94c7933a # v4
 
       - name: Download immutable release candidate
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           name: release-candidate-${{ env.KITE_SSOT_VERSION }}-${{ github.run_id }}-${{ github.run_attempt }}
           # upload-artifact stores these paths relative to their common
@@ -178,7 +178,7 @@ jobs:
             | xargs -0 shasum -a 256 > build/artifact-checksums.sha256
 
       - name: Attest the exact signed release set
-        uses: actions/attest-build-provenance@43d14bc2b83dec42d39ecae14e916627a18bb661 # v3
+        uses: actions/attest-build-provenance@977bb373ede98d70efdf65b84cb5f73e068dcc2a # v3
         with:
           subject-path: |
             build/staging-repository/**
@@ -215,7 +215,7 @@ jobs:
           --stacktrace
 
       - name: Upload staged artifacts
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: signed-release-${{ env.KITE_SSOT_VERSION }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
