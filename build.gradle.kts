@@ -31,9 +31,9 @@ plugins {
     `java-gradle-plugin`
     `maven-publish`
     signing
-    id("com.gradle.plugin-publish") version "1.3.1"
-    id("org.jetbrains.dokka") version "2.0.0"
-    id("org.cyclonedx.bom") version "3.2.4"
+    id("com.gradle.plugin-publish") version "2.1.1"
+    id("org.jetbrains.dokka") version "2.2.0"
+    id("org.cyclonedx.bom") version "3.3.0"
 }
 
 @DisableCachingByDefault(because = "Release metadata verification has no outputs")
